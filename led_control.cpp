@@ -95,7 +95,12 @@ boolean Led::isBusy(){
 boolean Led::flashOff(byte flashes){
   if(brightness){
     flashOffs = flashes*2-1;      
-    digitalWrite(pin, LOW);
+    if(pwm){
+      setPwm(0);
+    }
+    else{
+      digitalWrite(pin, LOW);
+    }
     eventStart = millis();
     return true;
   }
@@ -104,7 +109,12 @@ boolean Led::flashOff(byte flashes){
 boolean Led::flashOn(byte flashes){
   if(brightness != maxBright){
     flashOns = flashes*2-1;
-    digitalWrite(pin, HIGH);
+    if(pwm){
+      setPwm(maxBright);
+    }
+    else{
+      digitalWrite(pin, HIGH);
+    }
     eventStart = millis();
     return true;
   }
@@ -140,8 +150,13 @@ boolean Led::fadeTo(unsigned int brightTarget){
 void Led::loop(){
   if(flashOffs){
     if((unsigned long) (millis() - eventStart) >= blinkTime){
-      if(!flashOffs % 2){
-        digitalWrite(pin, LOW);
+      if(!(flashOffs % 2)){
+        if(pwm){
+          setPwm(0);
+        }
+        else{
+          digitalWrite(pin, LOW);
+        }
       }
       else{
         if(pwm){
@@ -158,8 +173,13 @@ void Led::loop(){
   }
   else if(flashOns){
     if((unsigned long) (millis() - eventStart) >= blinkTime){
-      if(!flashOns % 2){
-        digitalWrite(pin, HIGH);
+      if(!(flashOns % 2)){
+        if(pwm){
+          setPwm(maxBright);
+        }
+        else{
+          digitalWrite(pin, HIGH);
+        }
       }
       else{
         if(pwm){
