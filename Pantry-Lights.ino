@@ -1,25 +1,25 @@
-#include "led_control.h"
-#include "MemoryFree.h"
-#include <ezButton.h>
-#include <EEPROM.h>
+#include "led_control.h" //Custom
+#include <MemoryFree.h> //https://github.com/maniacbug/MemoryFree
+#include <ezButton.h> //https://github.com/ArduinoGetStarted/button
+#include <EEPROM.h> //Included
 
 const String REVISION_NUMBER = "0.2.2";
 
 //Debugging
-const boolean DEBUGGING = false;
+const boolean DEBUGGING = true;
 const int memoryInterval = 5000; //milliseconds
 unsigned long outputMemory = 0; //timestamp in milliseconds
 
 
 const byte PWM_OUT = 9;
-const byte LED_A = 2;
+const byte LED_A = 7;
 const byte LED_B = 6;
-const byte LED_C = 12;
+const byte LED_C = 5;
 const byte LIGHT_SENSOR = A0;
-const byte DOOR_SWITCH = 11;
+const byte DOOR_SWITCH = A1;
 const byte INC_BUTTON = 4;
-const byte DEC_BUTTON = 8;
-const byte SET_BUTTON = 7;
+const byte DEC_BUTTON = 2;
+const byte SET_BUTTON = 3;
 
 const int BRIGHT_ADJUSTMENT_INCREMENT = 20; // Each button press changes the brightness by this amount out of 1023
 const byte LOW_BRIGHT_THRESHOLD_ADJUSTMENT_INCREMENT = 5;
@@ -358,12 +358,17 @@ void loop() {
 
 //debugging (specific interval)
   if((unsigned long) (millis() - outputMemory) >= memoryInterval && DEBUGGING){
+    Serial.print("millis()=");
+    Serial.println(millis());
     Serial.print("freeMemory()=");
     Serial.println(freeMemory());
     Serial.print("pwmBrightness=");
     Serial.println(pwm.getBrightness());
     Serial.print("pwmBrightTarget=");
     Serial.println(pwm.getBrightTarget());
+    Serial.print("ambientSensor=");
+    Serial.println(ambientSensor);
+    
     outputMemory = millis();
   }
 }
