@@ -358,6 +358,7 @@ void loop() {
 
 //debugging (specific interval)
   if((unsigned long) (millis() - outputMemory) >= memoryInterval && DEBUGGING){
+    Serial.println("----------------------------------------");
     Serial.print("millis()=");
     Serial.println(millis());
     Serial.print("freeMemory()=");
