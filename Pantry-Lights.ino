@@ -176,7 +176,8 @@ void loop() {
         ambientSensor = 0;
         lastAmbientSensor = 0;
       }
-      else if (lastAmbientSensor - ambientSensorTest > ANALOG_DEBOUNCE || lastAmbientSensor - ambientSensorTest < -ANALOG_DEBOUNCE){
+      else if (lastAmbientSensor - ambientSensorTest > ANALOG_DEBOUNCE || 
+      lastAmbientSensor - ambientSensorTest < -ANALOG_DEBOUNCE){
         ambientSensor = analogRead(LIGHT_SENSOR) / 4;
         lastAmbientSensor = ambientSensor;
 //        Serial.print("Ambient Light Reading: ");
